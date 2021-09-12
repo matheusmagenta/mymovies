@@ -1,0 +1,190 @@
+@import url("https://fonts.googleapis.com/css2?family=Orelega+One&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+.container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+body {
+  padding-top: 70px;
+  font-family: "Orelega", sans-serif;
+}
+
+#movie-search {
+  width: 150px;
+}
+
+.navbar-dark .navbar-nav .nav-link {
+  color: white;
+}
+
+.movie-results {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.imdb-logo {
+  -webkit-transform: translateY(-1.6px);
+          transform: translateY(-1.6px);
+}
+
+.movie-info {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: space-evenly;
+      -ms-flex-pack: space-evenly;
+          justify-content: space-evenly;
+}
+
+.movie-item {
+  text-align: center;
+  font-weight: 400;
+  background-color: #d2b878;
+  width: 200px;
+  margin: 10px;
+  border-radius: 5px;
+  -webkit-box-shadow: 5px 5px 9px #d3b378;
+          box-shadow: 5px 5px 9px #d3b378;
+  padding: 20px;
+  -webkit-transition: 0.5s ease-in-out;
+  transition: 0.5s ease-in-out;
+}
+
+.movie-item:hover {
+  -webkit-transform: scale(1.05);
+          transform: scale(1.05);
+}
+
+.navbar {
+  background-color: #d4a373;
+}
+
+.movie-poster {
+  width: 150px;
+  height: 190px;
+  border-radius: 2px;
+}
+
+.movie-pagination {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.movie-profile {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  width: 400px;
+}
+
+.movie-details {
+  text-decoration: none;
+  background-color: #212529;
+  color: #d2b878;
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 2px;
+}
+
+.movie-year,
+.vote-average,
+.movie-title {
+  margin: 0;
+  padding: 0;
+}
+
+.movie-info {
+  font-size: 11px;
+  margin-bottom: 20px;
+}
+
+.btn-light {
+  color: white;
+  background-color: #2e2236;
+  border: none;
+}
+
+.movie-title {
+  font-size: 17px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.movie-card {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.movie.poster {
+  width: 100px;
+  height: 135px;
+}
+/*# sourceMappingURL=style.css.map */
+
+
+.landing {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.suggestions, .watchlist, .trending {
+  border: 1px solid black;
+  width: 100vw;
+  height: 150px;
+  padding: 10px;
+  margin: 10px;
+}

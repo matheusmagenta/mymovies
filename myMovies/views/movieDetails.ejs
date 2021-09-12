@@ -1,0 +1,35 @@
+<%- include('./partials/header') %>
+
+    <div class="main-view">
+      <div class="movie-card">
+        <div class="movie-profile">
+            <img
+                    src=<%= movieDetails.poster_path ? `https://image.tmdb.org/t/p/w500/${movieDetails.poster_path}` : "/images/no-poster.jpg" %> 
+                    alt="movie-poster"
+                    class="movie-poster"
+                    style="transform: scale(0.8)"
+            />
+            <h1><%= movieDetails.original_title %> </h1>
+            <p class="vote-average"><img class="imdb-logo" src="/images/imdb-logo.png"><%= movieDetails.vote_average %>/10</p>
+            <p class="movie-year">year: <%= movieDetails.release_date.slice(0, 4) %></p>
+            <p class="overview"><%= movieDetails.overview%></p>
+            <% if(movieHasReview){ %>
+              <div class="movie-review">
+                <%- include('./partials/showReview') %>
+                
+
+            <% } else { %>
+              <div class="movie-interactive">
+                <%- include('./partials/addReview') %>
+              </div> 
+            <% } %>
+        </div>
+       
+        
+      </div>
+      <div class="movie-pagination"></div>
+      <div class="movie-results"></div>
+    </div>
+
+  </body>
+</html>

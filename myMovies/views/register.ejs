@@ -1,0 +1,28 @@
+<%- include('./partials/header') %>
+
+    <div class="main-view">
+      <div class="movie-card">
+          <div class="register">
+            <form action="/register" method="POST">
+            <div>
+              <label for="name">name: </label>
+              <input type="text" name="name" id="name" required>
+            </div>
+            <div>
+              <label for="email">email: </label>
+              <input type="email" name="email" id="email" required>
+            </div>
+            <div>
+              <label for="password">password: </label>
+              <input type="password" name="password" id="password" required>
+            </div>
+            <button type="submit">register</button>
+            </form>
+          </div>
+      </div>
+      <div class="movie-pagination"></div>
+      <div class="movie-results"></div>
+    </div>
+
+  </body>
+</html>

@@ -1,0 +1,36 @@
+ <span>found <%= results.total_results %> movies</span>
+        <% if(results.page > 1 && results.page < results.total_pages) { %>
+            <form action="/search/<%= results.page - 1 %>" method="POST">
+            <textarea name="movie-search" id="movie-search" cols="1" rows="1" style="display: none"><%= query %></textarea>
+            <button type="submit" class="next-page">back</button>
+            </form>
+            <span>page <%= results.page %> of <%= results.total_pages %></span>
+            <form action="/search/<%= results.page + 1 %>" method="POST">
+            <textarea name="movie-search" id="movie-search" cols="1" rows="1" style="display: none"><%= query %></textarea>
+            <button type="submit" class="next-page">next</button>
+            </form>
+        <% } %>
+
+        <% if(results.page == 1 && results.total_pages > 1) { %>
+            <span>page <%= results.page %> of <%= results.total_pages %></span>
+            <form action="/search/<%= results.page + 1 %>" method="POST">
+            <textarea name="movie-search" id="movie-search" cols="1" rows="1" style="display: none"><%= query %></textarea>
+            <button type="submit" class="next-page">next</button>
+            </form>
+        <% } %>
+
+
+        <% if(results.page == results.total_pages && results.total_pages > 1) { %>
+            <span>page <%= results.page %> of <%= results.total_pages %></span>
+            <form action="/search/<%= results.page - 1 %>" method="POST">
+            <textarea name="movie-search" id="movie-search" cols="1" rows="1" style="display: none"><%= query %></textarea>
+            <button type="submit" class="next-page">back</button>
+            </form>
+        <% } %>
+
+       
+        <% if(results.page == 1 && results.total_pages <= 1) { %>
+            <span>page <%= results.page %> of <%= results.total_pages %></span>
+        <% } %>
+
+

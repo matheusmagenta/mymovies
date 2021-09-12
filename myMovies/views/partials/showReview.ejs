@@ -1,0 +1,13 @@
+<p><%= movieHasReview.movieReview.reviewTitle %></p>
+<p><%= movieHasReview.movieReview.reviewDescription %></p>
+<p><%= movieHasReview.movieReview.author %></p>
+</div>
+
+<form action="/movies/<%=movieDetails.id %>/edit" method="GET">
+    <button type="submit" class="edit-movie">edit</button>
+</form>
+
+<form action="/movies/<%=movieDetails.id %>?_method=DELETE" method="POST">
+    <button type="submit" class="delete-movie">delete</button>
+</form>
+    
