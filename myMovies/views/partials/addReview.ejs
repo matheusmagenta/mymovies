@@ -1,5 +1,6 @@
 <form action="/add" method="POST">
     <textarea name="movie-id-added" id="movie-id-added" cols="30" rows="10" style="display: none"><%= movieDetails.id %></textarea>
+    <textarea name="movie-title-added" id="movie-title-added" cols="30" rows="10" style="display: none"><%= movieDetails.title %></textarea>
     <textarea name="review-title-added" id="review-title-added" cols="30" rows="3" placeholder="review title"></textarea>
     <textarea name="review-description-added" id="review-description-added" cols="30" rows="10" placeholder="review description"></textarea>
     <button type="submit" class="add-movie">add review</button>

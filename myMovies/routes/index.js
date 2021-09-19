@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { getMovieByID, getMoviesByQuery} = require("../axiosData");
+const { getMovieByID, getMoviesByQuery, getRecommendationByID} = require("../axiosData");
 const { findOneAndDelete } = require('../models/movieAdded');
 const MovieSchema = require('../models/movieAdded');
 const bcrypt = require('bcrypt');
@@ -62,18 +62,10 @@ router.post('/add', async function(req, res, next){
  /* GET movies of myMovies page. */
  router.get('/mymovies', checkAuthenticated, async function(req, res, next) {
 
-  // retrieve IDs from DB
-  const myMovies = await MovieSchema.find({})
-  const arrayOfIDs = myMovies.map(movie => movie.movieID)
+  // retrieve movies from database
+  const myMoviesCollection = await getListFromDatabase()
+  // console.log('myMoviesCollection: ', myMoviesCollection)
 
-  // generate data to be render
-  const myMoviesCollection = []
-  for(let i = 0; i < arrayOfIDs.length; i++){
-    let movie = await getMovieByID(arrayOfIDs[i])
-    myMoviesCollection.push(movie)
-    
-  }
-  
   // render the page with data retrieved
   res.render('myMovies', { myMoviesCollection });
 });
@@ -119,11 +111,14 @@ async function saveToDatabase(movieAdded){
   // adding to movie and review to database
   const movieToDB = new MovieSchema({
     movieID : movieAdded['movie-id-added'],
+    movieTitle: movieAdded['movie-title-added'],
+    movieRecommendations: await getRecommendationByID(movieAdded['movie-id-added']),
     movieReview: { 
     reviewTitle: movieAdded['review-title-added'],
     reviewDescription: movieAdded['review-description-added']
   }
   })
+  console.log('movieToDB: ', movieToDB)
   await movieToDB.save();
 }
 
@@ -174,7 +169,19 @@ router.delete('/logout', (req, res) => {
   res.redirect('/login')
 })
 
+/* GET recommendations based on mymovies list */
+router.get('/recommendations', checkAuthenticated, async (req, res) => {
 
+  // retrieve movies from database
+  const myMovies = await MovieSchema.find({})
+  console.log('myMovies: ', myMovies)
+
+
+  res.render('recommendations', { myMovies } )
+})
+
+
+// FUNCTIONS
 // checking if user is authenticated or not
 function checkAuthenticated(req, res, next){
   if(req.isAuthenticated()){
@@ -189,6 +196,23 @@ function checkNotAuthenticated(req, res, next){
   }
   next();
 }
+
+// getting mymovies list from database
+async function getListFromDatabase(req, res, next){
+  // retrieve IDs from DB
+  const myMovies = await MovieSchema.find({})
+  const arrayOfIDs = myMovies.map(movie => movie.movieID)
+
+  // generate data to be render
+  const myMoviesCollection = []
+  for(let i = 0; i < arrayOfIDs.length; i++){
+    let movie = await getMovieByID(arrayOfIDs[i])
+    myMoviesCollection.push(movie)
+    
+  }
+  return myMoviesCollection
+}
+
 
 
 module.exports = {router, users};

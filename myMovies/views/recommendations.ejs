@@ -1,0 +1,32 @@
+<%- include('./partials/header') %>
+
+    <div class="main-view">
+      <div class="movie-card"></div>
+      <div class="movie-pagination"></div>
+      <div class="movie-results">
+          <% myMovies.forEach(item => { %>
+            <div>if you liked... <b><%= item.movieTitle %></b> </div>
+
+            <% item.movieRecommendations.forEach(recommendation => { %>
+              <div class="movie-item">
+                  <img
+                      src=<%= recommendation.poster_path ? `https://image.tmdb.org/t/p/w500/${recommendation.poster_path}` : "/images/no-poster.jpg" %> 
+                      alt="movie-poster"
+                      class="movie-poster"
+                      style="transform: scale(0.8)"
+                  />
+                  <p class="movie-title"><%= recommendation.title %></p>
+                  <a class="movie-details" data-id="<%= recommendation.id %>" href="/movies/<%= recommendation.id %>">see details ></a>
+
+              </div>
+
+            <% }) %> 
+
+          <% }) %>
+
+           
+      </div>
+    </div>
+
+  </body>
+</html>

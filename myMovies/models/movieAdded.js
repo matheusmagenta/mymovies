@@ -4,6 +4,12 @@ const movieSchema = new mongoose.Schema({
     movieID: {
         type: String
     },
+    movieTitle: {
+        type: String
+    },
+    movieRecommendations: {
+        type: Array
+    },
     movieReview: {
         reviewTitle: {
             type: String,
