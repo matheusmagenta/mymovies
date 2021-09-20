@@ -51,4 +51,23 @@ async function getRecommendationByID(movieID){
 }
 // getMovieByID(550);
 
-module.exports = { getMovieByID, getMoviesByQuery, getRecommendationByID } 
+async function getTrendingMoviesWeek(){
+   
+    // returning data of recommendations of each movie of myMovies list, adding ID and Title from original movie 
+    return axios
+        .get(`https://api.themoviedb.org/3/trending/movie/week`, { params: { api_key: API_KEY }
+            })
+        .then(res => {
+            const arrayTrending = [];
+            for(let i = 0; i < 3; i++){
+                arrayTrending.push({id: res.data.results[i].id, original_title: res.data.results[i].original_title, poster_path: res.data.results[i].poster_path})
+            }
+            console.log('arrayTrending: ', arrayTrending)
+            return arrayTrending
+        })
+        .catch(err => console.error(err))
+              
+}
+// getTrendingMoviesWeek();
+
+module.exports = { getMovieByID, getMoviesByQuery, getRecommendationByID, getTrendingMoviesWeek } 

@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { getMovieByID, getMoviesByQuery, getRecommendationByID} = require("../axiosData");
+const { getMovieByID, getMoviesByQuery, getRecommendationByID, getTrendingMoviesWeek} = require("../axiosData");
 const { findOneAndDelete } = require('../models/movieAdded');
 const MovieSchema = require('../models/movieAdded');
 const bcrypt = require('bcrypt');
@@ -178,6 +178,17 @@ router.get('/recommendations', checkAuthenticated, async (req, res) => {
 
 
   res.render('recommendations', { myMovies } )
+})
+
+/* GET trending movies this week */
+router.get('/trending', async (req, res) => {
+
+  // retrieve movies from database
+  const trendingMovies = await getTrendingMoviesWeek()
+  console.log('trendingMovies: ', trendingMovies)
+
+
+  res.render('trending', { trendingMovies } )
 })
 
 
