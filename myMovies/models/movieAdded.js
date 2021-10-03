@@ -10,14 +10,15 @@ const movieSchema = new mongoose.Schema({
     movieRecommendations: {
         type: Array
     },
+    movieWatchlist: {
+        type: Boolean
+    },
     movieReview: {
         reviewTitle: {
-            type: String,
-            required: true
+            type: String
         },
         reviewDescription: {
-            type: String,
-            required: true
+            type: String
         },
         createdAt: {
             type: Date,
@@ -25,7 +26,6 @@ const movieSchema = new mongoose.Schema({
         },
         author: {
             type: String,
-            required: true,
             default: 'john doe'
         } 
     }

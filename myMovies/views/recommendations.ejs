@@ -4,8 +4,12 @@
       <div class="movie-card"></div>
       <div class="movie-pagination"></div>
       <div class="movie-results">
+          <div class="movie-recommendations">
+
+
           <% myMovies.forEach(item => { %>
-            <div>if you liked... <b><%= item.movieTitle %></b> </div>
+            
+            <div>if you liked... <b><%= item.movieTitle %></b> 
 
             <% item.movieRecommendations.forEach(recommendation => { %>
               <div class="movie-item">
@@ -21,8 +25,9 @@
               </div>
 
             <% }) %> 
-
+          </div>
           <% }) %>
+          </div>
 
            
       </div>

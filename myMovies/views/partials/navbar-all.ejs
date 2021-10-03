@@ -1,0 +1,56 @@
+<nav
+      class="navbar nav-all navbar-expand fixed-top"
+    >
+      <div class="container-fluid">
+        <a class="navbar-nav" href="/"
+          ><i class="fas fa-film"></i
+        ></a>
+
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link my-movies inner-width-neon" aria-current="page" href="/mymovies"
+              >WATCHLIST</a
+            >
+          </li>
+        </ul>
+        <ul class="navbar-nav">
+          <li class="nav-item nav-reccomendations">
+            <a class="nav-link my-movies inner-width-neon" aria-current="page" href="/recommendations"
+              >RECOMMENDATIONS</a
+            >
+          </li>
+        </ul>
+        <ul class="navbar-nav nav-trending">
+          <li class="nav-item">
+            <a class="nav-link my-movies inner-width-neon" aria-current="page" href="/trending"
+              >TRENDING</a
+            >
+          </li>
+        </ul>
+        
+        <ul class="navbar-nav">
+          <li class="nav-item">
+        <form id="movie-form" method="POST" action="/search/1">
+          <div class="input-group">
+            <label for="movie-search"></label>
+            <input
+              type="text"
+              id="movie-search"
+              name="movie-search"
+              class="form-control"
+              placeholder="SEARCH"
+            />
+            <button
+              type="submit"
+              value="Submit"
+              class="btn btn-search"
+            >
+              <b>GO</b>
+            </button>
+          </div>
+        </form>
+        </li>
+        </ul>
+      </div>
+      
+    </nav>

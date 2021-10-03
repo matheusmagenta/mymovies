@@ -1,0 +1,35 @@
+<div class="streaming">
+    <% if(whereToWatch) { %> 
+
+
+    <div class="streaming-title-section">where to watch? by justwatch</div>
+    <% if(whereToWatch.flatrate){ %>
+        <div class="flatrate">
+            <div class="streaming-category">flatrate</div>
+            <% whereToWatch.flatrate.forEach(item => { %>
+            <li class="streaming-item"><%= item.item %><img class="platform-logo" src="https://image.tmdb.org/t/p/w500<%= item.logo %>"> </li> 
+            <% }) %>
+        </div>
+    <% } %>
+
+    <% if(whereToWatch.rent){ %>
+        <div class="rent">
+            <div class="streaming-category">rent</div>
+            <% whereToWatch.rent.forEach(item => { %>
+            <li class="streaming-item"><%= item.item %><img class="platform-logo" src="https://image.tmdb.org/t/p/w500<%= item.logo %>"></li>  
+            <% }) %>
+        </div>
+    <% } %>
+    <% if(whereToWatch.buy){ %>
+        <div class="buy">
+            <div class="streaming-category">buy</div>
+
+            <% whereToWatch.buy.forEach(item => { %>
+            <li class="streaming-item"><%= item.item %><img class="platform-logo" src="https://image.tmdb.org/t/p/w500<%= item.logo %>"></li> 
+            <% }) %>
+        </div>
+    <% } %>
+    <% } else { %>
+       <p>not available on streaming yet</p> 
+    <% } %>
+</div>

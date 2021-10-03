@@ -59,7 +59,7 @@ async function getTrendingMoviesWeek(){
             })
         .then(res => {
             const arrayTrending = [];
-            for(let i = 0; i < 3; i++){
+            for(let i = 0; i < 9; i++){
                 arrayTrending.push({id: res.data.results[i].id, original_title: res.data.results[i].original_title, poster_path: res.data.results[i].poster_path})
             }
             console.log('arrayTrending: ', arrayTrending)
@@ -70,4 +70,54 @@ async function getTrendingMoviesWeek(){
 }
 // getTrendingMoviesWeek();
 
-module.exports = { getMovieByID, getMoviesByQuery, getRecommendationByID, getTrendingMoviesWeek } 
+
+async function getStreamingByID(movieID){
+   
+    // returning data of recommendations of each movie of myMovies list, adding ID and Title from original movie 
+    return axios
+        .get(`https://api.themoviedb.org/3/movie/${movieID}/watch/providers`, { params: { api_key: API_KEY }
+            })
+        .then(res => {
+            const arrayStreamingGB = {};
+
+            const flatrate = []
+            const rent = []
+            const buy = []  
+
+            const allData = res.data
+
+            //getting flatrate
+            if(allData.results['GB'].flatrate){
+                
+                allData.results['GB'].flatrate.forEach(item => {
+                    flatrate.push({item: item.provider_name, logo: item.logo_path})
+                })
+                arrayStreamingGB.flatrate = flatrate
+            }
+
+            //getting rent
+            if(allData.results['GB'].rent){
+                allData.results['GB'].rent.forEach(item => {
+                    rent.push({item: item.provider_name, logo: item.logo_path})
+                })
+                arrayStreamingGB.rent = rent
+            }
+
+            //getting buy
+            if(allData.results['GB'].buy){
+
+                allData.results['GB'].buy.forEach(item => {
+                    buy.push({item: item.provider_name, logo: item.logo_path})
+                })
+                arrayStreamingGB.buy = buy
+            }
+            
+            console.log('arrayStreamingGB: ', arrayStreamingGB)
+            return arrayStreamingGB
+        })
+        .catch(err => console.error(err))
+              
+}
+// getStreamingByID(550);
+
+module.exports = { getMovieByID, getMoviesByQuery, getRecommendationByID, getTrendingMoviesWeek, getStreamingByID } 

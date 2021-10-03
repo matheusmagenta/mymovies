@@ -1,36 +1,44 @@
- <span>found <%= results.total_results %> movies</span>
+ <div>found <%= results.total_results %> movies</div>
         <% if(results.page > 1 && results.page < results.total_pages) { %>
+            <div class="pagination-nav">
             <form action="/search/<%= results.page - 1 %>" method="POST">
             <textarea name="movie-search" id="movie-search" cols="1" rows="1" style="display: none"><%= query %></textarea>
-            <button type="submit" class="next-page">back</button>
+            <button type="submit" class="next-page"><i class="fas fa-arrow-left"></i></button>
             </form>
             <span>page <%= results.page %> of <%= results.total_pages %></span>
             <form action="/search/<%= results.page + 1 %>" method="POST">
             <textarea name="movie-search" id="movie-search" cols="1" rows="1" style="display: none"><%= query %></textarea>
-            <button type="submit" class="next-page">next</button>
+            <button type="submit" class="next-page"><i class="fas fa-arrow-right"></i></button>
             </form>
+            </div>
         <% } %>
 
         <% if(results.page == 1 && results.total_pages > 1) { %>
+        <div class="pagination-nav">
             <span>page <%= results.page %> of <%= results.total_pages %></span>
             <form action="/search/<%= results.page + 1 %>" method="POST">
             <textarea name="movie-search" id="movie-search" cols="1" rows="1" style="display: none"><%= query %></textarea>
-            <button type="submit" class="next-page">next</button>
+            <button type="submit" class="next-page"><i class="fas fa-arrow-right"></i></button>
             </form>
+            </div>
         <% } %>
 
 
         <% if(results.page == results.total_pages && results.total_pages > 1) { %>
-            <span>page <%= results.page %> of <%= results.total_pages %></span>
+        <div class="pagination-nav">
             <form action="/search/<%= results.page - 1 %>" method="POST">
             <textarea name="movie-search" id="movie-search" cols="1" rows="1" style="display: none"><%= query %></textarea>
-            <button type="submit" class="next-page">back</button>
+            <button type="submit" class="next-page"><i class="fas fa-arrow-left"></i></button>
             </form>
+            <span>page <%= results.page %> of <%= results.total_pages %></span>
+            </div>
         <% } %>
 
        
         <% if(results.page == 1 && results.total_pages <= 1) { %>
+        <div class="pagination-nav">
             <span>page <%= results.page %> of <%= results.total_pages %></span>
+        </div>
         <% } %>
 
 

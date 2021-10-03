@@ -13,6 +13,7 @@
             <p class="vote-average"><img class="imdb-logo" src="/images/imdb-logo.png"><%= movieDetails.vote_average %>/10</p>
             <p class="movie-year">year: <%= movieDetails.release_date.slice(0, 4) %></p>
             <p class="overview"><%= movieDetails.overview%></p>
+            <%- include('./partials/whereToWatch') %>
             <% if(movieHasReview){ %>
               <div class="movie-review">
                 <%- include('./partials/showReview') %>
@@ -20,6 +21,7 @@
 
             <% } else { %>
               <div class="movie-interactive">
+                <%- include('./partials/addToWatchlist') %>
                 <%- include('./partials/addReview') %>
               </div> 
             <% } %>

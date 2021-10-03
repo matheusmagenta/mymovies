@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { getMovieByID, getMoviesByQuery, getRecommendationByID, getTrendingMoviesWeek} = require("../axiosData");
+const { getMovieByID, getMoviesByQuery, getRecommendationByID, getStreamingByID, getTrendingMoviesWeek} = require("../axiosData");
 const { findOneAndDelete } = require('../models/movieAdded');
 const MovieSchema = require('../models/movieAdded');
 const bcrypt = require('bcrypt');
@@ -26,13 +26,18 @@ router.get('/movies/:id', async function(req, res, next) {
   const movieDetails = await getMovieByID(req.params.id)
   // console.log('getID route:', movieDetails)
 
+
+  // retrieve movies from database
+  const whereToWatch = await getStreamingByID(movieID)
+  console.log('whereToWatch: ', whereToWatch)
+
   // check if movie/review is on the DB
   const movieHasReview = await MovieSchema.findOne({ movieID: req.params.id })
   // console.log('movieHasReview:', movieHasReview)
   if(movieHasReview){
-    res.render('movieDetails', { movieDetails, movieHasReview });
+    res.render('movieDetails', { movieDetails, whereToWatch, movieHasReview });
   } else {
-    res.render('movieDetails', { movieDetails, movieHasReview: '' });
+    res.render('movieDetails', { movieDetails, whereToWatch, movieHasReview: '' });
   }  
 });
 
@@ -59,15 +64,18 @@ router.post('/add', async function(req, res, next){
   res.redirect('/')
 })
 
+
  /* GET movies of myMovies page. */
  router.get('/mymovies', checkAuthenticated, async function(req, res, next) {
 
   // retrieve movies from database
-  const myMoviesCollection = await getListFromDatabase()
-  // console.log('myMoviesCollection: ', myMoviesCollection)
+  const myMovies = await getListFromDatabase()
+  // console.log('myMoviesWatchlist: ', myMovies[0])
+  // console.log('myMoviesReviewed: ', myMovies[1])
 
   // render the page with data retrieved
-  res.render('myMovies', { myMoviesCollection });
+  res.render('myMovies', { myMoviesWatchlist: myMovies[0], myMoviesReviewed: myMovies[1] });
+  
 });
 
 
@@ -92,7 +100,7 @@ router.post('/movies/:id/edit', async function(req, res, next) {
   // adding review to database
   await saveToDatabase(req.body)
 
-  res.redirect('/');
+  res.redirect('/mymovies');
 });
 
 /* DELETE movies/reviews of myMovies page. */
@@ -100,8 +108,16 @@ router.delete('/movies/:id', async function(req, res, next) {
   // console.log('req.params.id: ', req.params.id)
   // console.log('movieID: ', movieID)
   await MovieSchema.findOneAndDelete({ movieID: req.params.id })
-  res.redirect('/');
+  res.redirect('/mymovies');
 });
+
+/* POST adding movie to watchlist section on myMovies page. */
+router.post('/add-to-watchlist', async function(req, res, next){
+  console.log('req.body: ', req.body)
+  await saveToWatchlist(req.body)
+
+  res.redirect('/')
+})
 
 // FUNCTION adding review to database
 async function saveToDatabase(movieAdded){
@@ -112,6 +128,7 @@ async function saveToDatabase(movieAdded){
   const movieToDB = new MovieSchema({
     movieID : movieAdded['movie-id-added'],
     movieTitle: movieAdded['movie-title-added'],
+    movieWatchlist: false,
     movieRecommendations: await getRecommendationByID(movieAdded['movie-id-added']),
     movieReview: { 
     reviewTitle: movieAdded['review-title-added'],
@@ -120,6 +137,23 @@ async function saveToDatabase(movieAdded){
   })
   console.log('movieToDB: ', movieToDB)
   await movieToDB.save();
+}
+
+
+
+// FUNCTION adding movie to watchlist
+async function saveToWatchlist(movieAdded){
+  // const test = await req.body
+  console.log('movieAdded: ', movieAdded)
+  
+  // adding to movie and review to database
+  const movieToWatchlist = new MovieSchema({
+    movieID : movieAdded['movie-id-added'],
+    movieTitle: movieAdded['movie-title-added'],
+    movieWatchlist: movieAdded['movie-to-watchlist']
+  })
+  console.log('movieToWatchlist: ', movieToWatchlist)
+  await movieToWatchlist.save();
 }
 
 
@@ -173,8 +207,10 @@ router.delete('/logout', (req, res) => {
 router.get('/recommendations', checkAuthenticated, async (req, res) => {
 
   // retrieve movies from database
-  const myMovies = await MovieSchema.find({})
-  console.log('myMovies: ', myMovies)
+  const myMoviesCollection = await MovieSchema.find({})
+  const myMovies = myMoviesCollection.filter(movie => movie.movieWatchlist == false)
+  
+  console.log('myMovies: ', myMovies )
 
 
   res.render('recommendations', { myMovies } )
@@ -191,6 +227,17 @@ router.get('/trending', async (req, res) => {
   res.render('trending', { trendingMovies } )
 })
 
+/* GET streaming platforms for each movie */
+router.get('/streaming', async (req, res) => {
+
+  // retrieve movies from database
+  const whereToWatch = await getStreamingByID(550)
+  console.log('whereToWatch: ', whereToWatch)
+
+  res.redirect('/')
+  // res.render('streaming', { whereToWatch } )
+})
+
 
 // FUNCTIONS
 // checking if user is authenticated or not
@@ -198,7 +245,7 @@ function checkAuthenticated(req, res, next){
   if(req.isAuthenticated()){
     return next();
   }
-  res.redirect('/login');
+  res.redirect('/register');
 }
 
 function checkNotAuthenticated(req, res, next){
@@ -212,16 +259,25 @@ function checkNotAuthenticated(req, res, next){
 async function getListFromDatabase(req, res, next){
   // retrieve IDs from DB
   const myMovies = await MovieSchema.find({})
-  const arrayOfIDs = myMovies.map(movie => movie.movieID)
+  //console.log('myMovies: ', myMovies)
 
-  // generate data to be render
-  const myMoviesCollection = []
-  for(let i = 0; i < arrayOfIDs.length; i++){
-    let movie = await getMovieByID(arrayOfIDs[i])
-    myMoviesCollection.push(movie)
+  const arraysOfIDsWatchlist = myMovies.filter(movie => movie.movieWatchlist == true).map(movie => movie = movie.movieID)
+  const arraysOfIDsReviewed = myMovies.filter(movie => movie.movieWatchlist == false).map(movie => movie = movie.movieID)
+
+    // generate data to be render
+  const myMoviesWatchlist = []
+  for(let i = 0; i < arraysOfIDsWatchlist.length; i++){
+    let movie = await getMovieByID(arraysOfIDsWatchlist[i])
+    myMoviesWatchlist.push(movie)
     
   }
-  return myMoviesCollection
+  const myMoviesReviewed = []
+  for(let i = 0; i < arraysOfIDsReviewed.length; i++){
+    let movie = await getMovieByID(arraysOfIDsReviewed[i])
+    myMoviesReviewed.push(movie)
+    
+  }
+  return [myMoviesWatchlist, myMoviesReviewed]
 }
 
 

@@ -1,0 +1,9 @@
+
+<div class="add-to-watchlist">
+    <form action="/add-to-watchlist" method="POST">
+        <textarea name="movie-id-added" id="movie-id-added" style="display: none"><%= movieDetails.id %></textarea>
+        <textarea name="movie-title-added" id="movie-title-added" style="display: none"><%= movieDetails.title %></textarea>
+        <textarea name="movie-to-watchlist" id="movie-to-watchlist" style="display: none"><%= true %></textarea>
+        <button type="submit" class="add-movie-to-watchlist">add to watchlist</button>
+    </form>
+</div>

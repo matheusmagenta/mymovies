@@ -4,7 +4,11 @@
       <div class="movie-card"></div>
       <div class="movie-pagination"></div>
       <div class="movie-results">
-          <% myMoviesCollection.forEach(result => { %>
+          <div class="movie-mymovies">
+
+          <div class="movie-watchlist">
+            <h1>watchlist</h1>
+               <% myMoviesWatchlist.forEach(result => { %>
             <div class="movie-item">
                 <img
                     src=<%= result.poster_path ? `https://image.tmdb.org/t/p/w500/${result.poster_path}` : `<img src="../public/images/no-poster.jpg" alt="no poster image" style="transform: scale(0.8)"/>` %> 
@@ -17,6 +21,27 @@
 
             </div>
           <% }) %>
+          </div>
+
+          <div class="movie-with-review">
+            <h1>with review</h1>
+               <% myMoviesReviewed.forEach(result => { %>
+            <div class="movie-item">
+                <img
+                    src=<%= result.poster_path ? `https://image.tmdb.org/t/p/w500/${result.poster_path}` : `<img src="../public/images/no-poster.jpg" alt="no poster image" style="transform: scale(0.8)"/>` %> 
+                    alt="movie-poster"
+                    class="movie-poster"
+                    style="transform: scale(0.8)"
+                />
+                <p class="movie-title"><%= result.title %></p>
+                <a class="movie-details" data-id="<%= result.id %>" href="/movies/<%= result.id %>">see details ></a>
+
+            </div>
+          <% }) %>
+
+          </div>
+          </div>
+       
       </div>
     </div>
 

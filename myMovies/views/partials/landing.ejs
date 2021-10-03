@@ -1,14 +1,35 @@
 <div class="landing">
-    <div class="suggestions">
-        <span>recommendations</span>
-        <a href="/recommendations">more...</a>
+     <div class="search inner-width-neon">
+        <form id="movie-form" method="POST" action="/search/1">
+          <div class="input-group">
+            <label for="movie-search"></label>
+            <input
+              type="text"
+              id="search"
+              name="movie-search"
+              class="form-control"
+              placeholder="SEARCH BY TITLE"
+              
+            />
+            <button
+              type="submit"
+              value="Submit"
+              class="btn btn-search"
+            >
+              
+            </button>
+            </div>
+        </form>    
     </div>
-    <div class="watchlist">
-        <span>watchlist</span>
-        <a href="#">more...</a>
+    <div class="recommendations inner-width-neon">
+        <a href="/recommendations" id="recommendations">RECOMMENDATIONS</a>
     </div>
-    <div class="trending">
-        <span>trending</span>
-        <a href="/trending">more...</a>
+   
+    <div class="watchlist inner-width-neon">
+        <a href="/mymovies" id="watchlist">MY MOVIES</a>
     </div>
+    <div class="trending inner-width-neon">
+        <a href="/trending" id="trending">TRENDING</a>
+    </div>
+  
 </div>
